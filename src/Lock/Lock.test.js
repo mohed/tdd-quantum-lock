@@ -72,12 +72,12 @@ describe("lock", () => {
 
       test("should only store the 4 latest inputs", () => {
         fireEvent.keyDown(inputComponent, { key: "1" });
-        fireEvent.keyDown(inputComponent, { key: "2" });
+        fireEvent.keyDown(inputComponent, { key: "9" });
         fireEvent.keyDown(inputComponent, { key: "3" });
-        fireEvent.keyDown(inputComponent, { key: "4" });
+        fireEvent.keyDown(inputComponent, { key: "7" });
         fireEvent.keyDown(inputComponent, { key: "5" });
 
-        expect(numbersLabel.textContent).toBe("2345");
+        expect(numbersLabel.textContent).toBe("9375");
       });
     });
   });

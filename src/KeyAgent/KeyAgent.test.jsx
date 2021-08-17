@@ -1,4 +1,5 @@
 import { render, fireEvent } from "@testing-library/react";
+import { enterCorrectProgrammingCode } from "../Helpers/TestHelper";
 import KeyAgent from "./KeyAgent";
 
 describe("key agent", () => {
@@ -6,13 +7,7 @@ describe("key agent", () => {
   var inputComponent;
 
   beforeEach(() => {
-    ({ getByTestId } = render(
-      <KeyAgent
-        newPasscodeCallback={(o) => {
-          console.log(o);
-        }}
-      />
-    ));
+    ({ getByTestId } = render(<KeyAgent newPasscodeCallback={() => {}} />));
     inputComponent = getByTestId("input");
   });
 
@@ -47,6 +42,7 @@ describe("key agent", () => {
       fireEvent.keyDown(inputComponent, { key: "9" });
       fireEvent.keyDown(inputComponent, { key: "9" });
       fireEvent.keyDown(inputComponent, { key: "1" });
+
       var header = getByTestId("error");
       expect(header).toBeDefined();
     });
@@ -54,23 +50,15 @@ describe("key agent", () => {
 
   describe("programming state", () => {
     test("should be in programming state on fully provided programming code", () => {
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
+      enterCorrectProgrammingCode(inputComponent);
+
       var header = getByTestId("programming");
       expect(header).toBeDefined();
     });
 
     test("should fail if new passcode is the same as the programming code", () => {
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
+      enterCorrectProgrammingCode(inputComponent);
+      enterCorrectProgrammingCode(inputComponent);
 
       var header = getByTestId("error");
       expect(header).toBeDefined();

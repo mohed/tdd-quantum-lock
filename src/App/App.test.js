@@ -1,4 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import {
+  enterNewPasscode,
+  enterCorrectPasscode,
+  enterCorrectProgrammingCode,
+} from "../Helpers/TestHelper";
 import App from "./App";
 
 describe("App", () => {
@@ -22,31 +27,53 @@ describe("App", () => {
     });
 
     test("should change to unlocked state on default passcode", () => {
-      fireEvent.keyDown(inputComponent, { key: "1" });
-      fireEvent.keyDown(inputComponent, { key: "2" });
-      fireEvent.keyDown(inputComponent, { key: "3" });
-      fireEvent.keyDown(inputComponent, { key: "4" });
+      enterCorrectPasscode(inputComponent);
 
       expect(screen.getByTestId("key-agent")).toBeInTheDocument();
     });
 
     test("shoud set new passcode on valid input", () => {
-      fireEvent.keyDown(inputComponent, { key: "1" });
-      fireEvent.keyDown(inputComponent, { key: "2" });
-      fireEvent.keyDown(inputComponent, { key: "3" });
-      fireEvent.keyDown(inputComponent, { key: "4" });
+      enterCorrectPasscode(inputComponent);
 
       inputComponent = screen.getByTestId("input");
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "9" });
-      fireEvent.keyDown(inputComponent, { key: "5" });
-      fireEvent.keyDown(inputComponent, { key: "6" });
-      fireEvent.keyDown(inputComponent, { key: "7" });
-      fireEvent.keyDown(inputComponent, { key: "8" });
+      enterCorrectProgrammingCode(inputComponent);
+      enterNewPasscode(inputComponent);
 
       expect(screen.getByTestId("lock")).toBeInTheDocument();
+    });
+
+    test("should exit the programming state on invalid programming code", () => {
+      enterCorrectPasscode(inputComponent);
+      inputComponent = screen.getByTestId("input");
+      fireEvent.keyDown(inputComponent, { key: "1" });
+
+      expect(screen.getByTestId("lock")).toBeInTheDocument();
+    });
+
+    test("should dissregard new passcode when equal to proggramming code", () => {
+      enterCorrectPasscode(inputComponent);
+
+      inputComponent = screen.getByTestId("input");
+      enterCorrectProgrammingCode(inputComponent);
+      enterCorrectProgrammingCode(inputComponent);
+
+      inputComponent = screen.getByTestId("input");
+      enterCorrectProgrammingCode(inputComponent);
+
+      expect(screen.getByTestId("lock")).toBeInTheDocument();
+    });
+
+    test("should unlock on newly provided valid passcode", () => {
+      enterCorrectPasscode(inputComponent);
+
+      inputComponent = screen.getByTestId("input");
+      enterCorrectProgrammingCode(inputComponent);
+      enterNewPasscode(inputComponent);
+
+      inputComponent = screen.getByTestId("input");
+      enterNewPasscode(inputComponent);
+
+      expect(screen.getByTestId("unlocked")).toBeInTheDocument();
     });
   });
 });
