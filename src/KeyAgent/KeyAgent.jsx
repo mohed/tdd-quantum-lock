@@ -10,7 +10,7 @@ const KeyAgent = (props) => {
 
   const handleInput = (inputHistory) => {
     setTicker(ticker + 1);
-    if (ticker < 4) listen(inputHistory);
+    if (ticker <= 3) listen(inputHistory);
     else if (ticker === 7) program(inputHistory);
   };
 

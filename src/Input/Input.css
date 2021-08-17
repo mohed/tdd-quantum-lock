@@ -1,0 +1,16 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 5em;
+}
+.digit-input {
+  width: 1em;
+  font-size: 2em;
+  text-align: right;
+}
+
+.digit-history {
+  font-size: 1.5em;
+}

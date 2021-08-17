@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import "./Input.css";
 
 const Input = (props) => {
   const { callBack } = props;
@@ -25,18 +26,23 @@ const Input = (props) => {
   };
 
   return (
-    <>
+    <div className="input-container">
       <input
         data-testid="input"
+        className="digit-input"
         type="number"
-        onChange={() => {}}
+        autoFocus
+        readOnly
+        maxLength="1"
         value={input}
         onKeyDown={(e) => {
           handleKeyDown(e);
         }}
       />
-      <label data-testid="numbers">{inputHistory}</label>
-    </>
+      <label className="digit-history" data-testid="numbers">
+        {inputHistory}
+      </label>
+    </div>
   );
 };
 
